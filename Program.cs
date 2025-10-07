@@ -120,5 +120,11 @@ class Program
                 Console.WriteLine("To use the calculator, please enter a valid operator: Either + or - and valid number.");
                 return;
         }
+
+        // static class example
+        // The static keyword, means that a class must be called directly, cannot be modified or inheritet
+        // We can however assign values to, by taking in it's "signature"/"return value" of the static class method
+        double sum = Calculator.Multiply(5, 5);
+        Console.WriteLine(sum);
     }
 }
