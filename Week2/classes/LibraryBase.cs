@@ -79,7 +79,7 @@ public abstract class LibraryBase : IRentable
         Console.WriteLine($"[{Id}] '{Title}' was returned to the library.");
     }
 
-    // static Helper method
+    // static & not static Helper methods
     public static bool IsOverdue(int days)
     {
         if (days >= 14)
@@ -87,5 +87,10 @@ public abstract class LibraryBase : IRentable
             return true;
         }
         return false;
+    }
+
+    public void Rename(string newTitle)
+    {
+        Title = newTitle;
     }
 }

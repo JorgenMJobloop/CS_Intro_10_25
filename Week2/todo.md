@@ -9,16 +9,31 @@
 # Classes, Interfaces & ENUM
     
     Classes (marked: normal, static, abstract, internal)
-        - Book -> normal
+
+        Media classes:
+            - Book -> normal
+            - Dvd -> normal
+            - Vhs -> normal
+            - VideoGames -> normal
+        Super class (base):
         - LibraryBase -> abstract (super class)
-        - FlatRatePricing -> normal
-        - ProgressivePricing -> normal
-        - RentalService -> normal
+            
+        Pricing classes:    
+            - FlatRatePricing -> normal
+            - ProgressivePricing -> normal
+        
+        Services:
+            - RentalService -> normal
+            - LibraryService -> normal
+            
     Interfaces
         - IRentable
         - IPricingStrategy
     ENUMs
         - Genre
+        - MediaType
+        - RegionCodes
+        - ParentalGuidance 
 
 
 # Methods, Fields & Properties
@@ -32,6 +47,9 @@
             * Return : void()
             * CalculateFee : double(int days)
 
-    All methods will be implemented in these classes.
+    All methods will be implemented in the classes.
 
-# OOP concepts
+# 14.10.25
+## todo
+    - Refactor code and add encapsulation & polymorphism
+    - 
