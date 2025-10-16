@@ -18,17 +18,32 @@
         Super class (base):
         - LibraryBase -> abstract (super class)
             
-        Pricing classes:    
-            - FlatRatePricing -> normal
-            - ProgressivePricing -> normal
+        - LibraryState -> normal (not super)
+
+        DTO:
+            - ItemDto -> normal
+            - LoanDto -> normal
+
         
+        ##### No longer required, can be deleted.    
+        Pricing classes:    
+            - FlatRatePricing -> deleted 
+            - ProgressivePricing -> deleted
+        #####
+
         Services:
             - RentalService -> normal
             - LibraryService -> normal
-            
+
+        CLI:
+            - CLI -> normal
+
+        Database:
+            - JsonDatabase -> normal
+            - ItemMapper -> static
+            - LoadMapper -> static        
     Interfaces
         - IRentable
-        - IPricingStrategy
     ENUMs
         - Genre
         - MediaType

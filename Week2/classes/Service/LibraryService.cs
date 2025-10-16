@@ -3,7 +3,8 @@ public class LibraryService
     /// <summary>
     /// Our main library inventory, using a Dictionary data structure with string as key, and IRentable as values
     /// </summary>
-    private readonly Dictionary<string, IRentable> _inventory = new Dictionary<string, IRentable>();
+    private readonly Dictionary<string, IRentable> _inventory = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, LoanRecord> _loans = new(StringComparer.OrdinalIgnoreCase);
 
     // Methods
     public IEnumerable<IRentable> All() => _inventory.Values.OrderBy(inv => inv.Title);
@@ -58,5 +59,35 @@ public class LibraryService
         searchTerm = searchTerm.Trim() ?? string.Empty;
 
         return All().Where(itm => itm.Title.Contains(searchTerm, StringComparison.Ordinal) || itm.Id.Contains(searchTerm, StringComparison.Ordinal));
+    }
+
+    // Snapshots & a restore point
+    internal IEnumerable<IRentable> SnapshotItems() => _inventory.Values;
+    internal IEnumerable<LoanRecord> SnapshotLoans() => _loans.Values;
+
+    internal void RestoreFrom(IEnumerable<IRentable> items, IEnumerable<LoanRecord> loans)
+    {
+        // Clear the inventory
+        _inventory.Clear();
+
+        // loop through all the items
+        foreach (var item in items)
+        {
+            _inventory[item.Id] = item;
+        }
+        // Clear saved loan information
+        _loans.Clear();
+        foreach (var loan in loans)
+        {
+            _loans[loan.ItemId] = loan;
+            // Check that the IsRented condition reflects the current loans
+            if (_inventory.TryGetValue(loan.ItemId, out var itm))
+            {
+                if (!itm.IsRented)
+                {
+                    itm.Rent(loan.CustomerId);
+                }
+            }
+        }
     }
 }

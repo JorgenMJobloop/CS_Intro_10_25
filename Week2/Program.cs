@@ -4,8 +4,6 @@ class Program
 {
     static void Main(string[] args)
     {
-        var flat = new FlatRatePricing();
-        var progressive = new ProgressivePricing();
         var rentalService = new RentalService();
         var libraryService = new LibraryService();
 
@@ -28,5 +26,14 @@ class Program
 
         Console.WriteLine(book1.IsRented); // true
         Console.WriteLine($"Fee 5 days: {book1.CalculateFee(5)}");
+
+        Console.WriteLine("DEBUG::16.10.2025, current working implementation");
+
+        var database = args.Length > 0 ? args[0] : "library.json";
+        var db = new JsonDatabase(database);
+        var service = new LibraryService();
+
+        var cli = new CLI(service, db);
+        cli.Run();
     }
 }
