@@ -8,7 +8,7 @@ public class Dvd : LibraryBase
     /// The runtime for the DVD
     /// </summary>
     public double Runtime { get; }
-    public MediaType Type { get; set; }
+    public MediaType Type { get; set; } = MediaType.DVD;
     public int BaseDailyRate { get; set; }
     public ParentalGuidance ParentalGuidance { get; private set; }
     public Dvd(string id, string title, RegionCodes regionCode, double runtime, ParentalGuidance parentalGuidance)

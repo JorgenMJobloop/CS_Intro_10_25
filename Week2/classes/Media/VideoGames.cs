@@ -5,6 +5,7 @@ public class VideoGames : LibraryBase
     /// </summary>
     public Platforms Platform { get; private set; }
     public ParentalGuidance ParentalGuidance { get; }
+    public MediaType Type { get; set; } = MediaType.VIDEO_GAMES;
     public VideoGames(string id, string title, Platforms platform, ParentalGuidance parentalGuidance)
     : base(id, title, baseDailyRate: 15)
     {

@@ -28,13 +28,15 @@ public static class ItemMapper
         {
             Id = vhs.Id,
             Condition = vhs.Condition,
+            _MediaType = vhs.Type,
             ParentalGuidanceRating = vhs.ParentalGuidance
         },
         VideoGames videoGames => new ItemDto
         {
             Id = videoGames.Id,
-            ParentalGuidanceRating = videoGames.ParentalGuidance,
-            Platform = videoGames.Platform
+            Platform = videoGames.Platform,
+            _MediaType = videoGames.Type,
+            ParentalGuidanceRating = videoGames.ParentalGuidance
         },
         _ => throw new NotSupportedException("Unknown type of media was added as input!")
     };

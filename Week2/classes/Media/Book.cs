@@ -1,7 +1,7 @@
 public class Book : LibraryBase
 {
     public string Author { get; private set; }
-    public MediaType Type { get; set; }
+    public MediaType Type { get; set; } = MediaType.Book;
     public string? Isbn { get; private set; }
     public int BaseDailyRate { get; set; }
     public Book(string id, string title, string author, string? isbn = null)

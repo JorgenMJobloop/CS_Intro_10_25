@@ -1,0 +1,75 @@
+{
+  "Items": [
+    {
+      "Id": "B-100",
+      "Title": "Clean Code",
+      "_MediaType": 1,
+      "BaseDailyRate": 0,
+      "Author": "Rober C. Martin",
+      "Isbn": "9780132350884",
+      "Region": 0,
+      "Runtime": 0,
+      "Condition": null,
+      "Platform": 0,
+      "ParentalGuidanceRating": 0,
+      "IsRented": false
+    },
+    {
+      "Id": "B-200",
+      "Title": "The Hobbit",
+      "_MediaType": 1,
+      "BaseDailyRate": 0,
+      "Author": "J.R.R Tolkien",
+      "Isbn": null,
+      "Region": 0,
+      "Runtime": 0,
+      "Condition": null,
+      "Platform": 0,
+      "ParentalGuidanceRating": 0,
+      "IsRented": false
+    },
+    {
+      "Id": "D-100",
+      "Title": "Interstellar",
+      "_MediaType": 2,
+      "BaseDailyRate": 0,
+      "Author": null,
+      "Isbn": null,
+      "Region": 2,
+      "Runtime": 169,
+      "Condition": null,
+      "Platform": 0,
+      "ParentalGuidanceRating": 1,
+      "IsRented": false
+    },
+    {
+      "Id": "V-100",
+      "Title": null,
+      "_MediaType": 3,
+      "BaseDailyRate": 0,
+      "Author": null,
+      "Isbn": null,
+      "Region": 0,
+      "Runtime": 0,
+      "Condition": "Worn",
+      "Platform": 0,
+      "ParentalGuidanceRating": 1,
+      "IsRented": false
+    },
+    {
+      "Id": "VG-100",
+      "Title": null,
+      "_MediaType": 4,
+      "BaseDailyRate": 0,
+      "Author": null,
+      "Isbn": null,
+      "Region": 0,
+      "Runtime": 0,
+      "Condition": null,
+      "Platform": 1,
+      "ParentalGuidanceRating": 2,
+      "IsRented": false
+    }
+  ],
+  "Loans": []
+}

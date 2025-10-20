@@ -4,36 +4,34 @@ class Program
 {
     static void Main(string[] args)
     {
-        var rentalService = new RentalService();
-        var libraryService = new LibraryService();
-
-        var book1 = new Book("B-100", "Clean Code", "Robert C. Martin");
-        var book2 = new Book("B-200", "The Hobbit", "J.R.R Tolkien");
-
-        // add our books to the rental service
-        rentalService.Add(book1);
-        rentalService.TryRent("B-100", "J-1", out var _);
-        rentalService.Add(book2);
-
-        libraryService.Add(book1);
-
-        var file = libraryService.SearchForItem("B-100");
-
-        foreach (var f in file)
-        {
-            Console.WriteLine(f.Title);
-        }
-
-        Console.WriteLine(book1.IsRented); // true
-        Console.WriteLine($"Fee 5 days: {book1.CalculateFee(5)}");
-
-        Console.WriteLine("DEBUG::16.10.2025, current working implementation");
-
-        var database = args.Length > 0 ? args[0] : "library.json";
-        var db = new JsonDatabase(database);
+        var path = args.Length > 0 ? args[0] : "library.json";
+        var db = new JsonDatabase(path);
         var service = new LibraryService();
+
+        // load or write to our database
+        var state = db.Load();
+        if (state is null)
+        {
+            SeedDemoData(service);
+            db.Save(LibraryState.FromService(service));
+            Console.WriteLine($"New database file created at: '{path}'");
+        }
+        else
+        {
+            state.ApplyToService(service);
+            Console.WriteLine($"Database loaded from: '{path}'");
+        }
 
         var cli = new CLI(service, db);
         cli.Run();
+    }
+
+    private static void SeedDemoData(LibraryService service)
+    {
+        service.Add(new Book("B-100", "Clean Code", "Rober C. Martin", "9780132350884"));
+        service.Add(new Book("B-200", "The Hobbit", "J.R.R Tolkien"));
+        service.Add(new Dvd("D-100", "Interstellar", RegionCodes.Europe, runtime: 169, ParentalGuidance.PEGI));
+        service.Add(new Vhs("V-100", "Back to the Future", condition: "Worn", ParentalGuidance.PEGI));
+        service.Add(new VideoGames("VG-100", "Persona 5", Platforms.Playstation, ParentalGuidance.ESRB));
     }
 }
