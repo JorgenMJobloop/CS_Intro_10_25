@@ -27,6 +27,7 @@ public static class ItemMapper
         Vhs vhs => new ItemDto
         {
             Id = vhs.Id,
+            Title = vhs.Title,
             Condition = vhs.Condition,
             _MediaType = vhs.Type,
             ParentalGuidanceRating = vhs.ParentalGuidance
@@ -34,6 +35,7 @@ public static class ItemMapper
         VideoGames videoGames => new ItemDto
         {
             Id = videoGames.Id,
+            Title = videoGames.Title,
             Platform = videoGames.Platform,
             _MediaType = videoGames.Type,
             ParentalGuidanceRating = videoGames.ParentalGuidance

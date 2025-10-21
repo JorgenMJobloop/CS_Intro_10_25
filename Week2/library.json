@@ -44,7 +44,7 @@
     },
     {
       "Id": "V-100",
-      "Title": null,
+      "Title": "Back to the Future",
       "_MediaType": 3,
       "BaseDailyRate": 0,
       "Author": null,
@@ -58,7 +58,7 @@
     },
     {
       "Id": "VG-100",
-      "Title": null,
+      "Title": "Persona 5",
       "_MediaType": 4,
       "BaseDailyRate": 0,
       "Author": null,
@@ -68,6 +68,34 @@
       "Condition": null,
       "Platform": 1,
       "ParentalGuidanceRating": 2,
+      "IsRented": false
+    },
+    {
+      "Id": "D-200",
+      "Title": "Batman Begins",
+      "_MediaType": 2,
+      "BaseDailyRate": 0,
+      "Author": null,
+      "Isbn": null,
+      "Region": 2,
+      "Runtime": 140,
+      "Condition": null,
+      "Platform": 0,
+      "ParentalGuidanceRating": 2,
+      "IsRented": false
+    },
+    {
+      "Id": "B-300",
+      "Title": "Blood Meridian",
+      "_MediaType": 1,
+      "BaseDailyRate": 0,
+      "Author": "Cormac Mccarthy",
+      "Isbn": null,
+      "Region": 0,
+      "Runtime": 0,
+      "Condition": null,
+      "Platform": 0,
+      "ParentalGuidanceRating": 0,
       "IsRented": false
     }
   ],

@@ -64,7 +64,19 @@
 
     All methods will be implemented in the classes.
 
-# 14.10.25
+# Dependencies
+```sh
+dotnet add package Spectre.Console
+```
+
+# 14.10.25 - 21.10.25
 ## todo
-    - Refactor code and add encapsulation & polymorphism
-    - 
+    - Refactor code and add encapsulation & polymorphism[x]
+    - Implement CLI & services[x]
+    - Implement Spectre.Console UI[] 
+# 21.10.25
+## Changelog
+    - Added multiple service classes
+    - Added database persistance (JSON-database)
+    - Added a CLI class & a working command-line interface
+    - Added mappers & DTOs
