@@ -142,92 +142,97 @@ public class CLI
 
     private void RentFlow()
     {
-        Console.Write("Enter id to rent: ");
-        var id = ReadNonEmpty();
-        Console.Write("Customer id: ");
-        var customerId = ReadNonEmpty();
-        _service!.Rent(id, customerId);
-        Console.WriteLine("Item successfully rented out.");
+        UI.MarkupLine("[bold]Rent an item[/]");
+        // Here, we utilize our PromptExistingId() method
+        var id = PromptExistingId("Enter ID of the item you wish to rent");
+        var customerID = PromptText("Customer id:");
+        _service!.Rent(id, customerID);
+        UI.MarkupLine("[green]Rented[/]");
     }
-
     private void ReturnFlow()
     {
-        Console.Write("\nEnter the id of the item you want to return: ");
-        var id = ReadNonEmpty();
+        UI.MarkupLine("[bold]Return item[/]");
+        var id = PromptExistingId("Enter the ID of the item you want to return");
         _service!.Return(id);
-        Console.WriteLine("Item successfully returned.");
+        UI.MarkupLine($"[green]Item with id: {id} has been returned.[/]");
     }
 
     private void CalcuateFeeFlow()
     {
-        Console.Write("\nEnter the id of the item you want the fee calculated for: ");
-        var id = ReadNonEmpty();
-        Console.Write("Days since the item was first rented: ");
-        int days = ReadInt(min: 0);
+        UI.MarkupLine("[bold]Calculate fee[/]");
+        var id = PromptExistingId("Enter id");
+        var days = UI.Prompt(
+            new TextPrompt<int>("Days since first rented:")
+                .Validate(d => d >= 0 ? ValidationResult.Success() : ValidationResult.Error("When calculating the fee, days cannot be less than 1"))
+        );
         var fee = _service!.Fee(id, days);
-        Console.WriteLine($"Fee: {fee:0.00} {(LibraryBase.IsOverdue(days) ? "(OVERDUE)" : "")}");
+        var overdue = LibraryBase.IsOverdue(days) ? "[red]OVERDUE[/]" : "";
+        UI.MarkupLine($"Fee: [yellow]{fee:0.00}[/]{overdue}");
     }
 
     private void SearchFlow()
     {
-        Console.Write("\nSearch term: ");
-        var searchTerm = Console.ReadLine() ?? string.Empty;
+        // get out search term, this prompt allows empty input: i.e:: "" or "B-100"
+        var searchTerm = UI.Prompt(new TextPrompt<string>("Search term:").AllowEmpty());
         var results = _service!.SearchForItem(searchTerm).ToList();
-        if (!results.Any())
+        // check that we do not get 0 results
+        if (results.Count == 0)
         {
-            Console.WriteLine($"Searched for {searchTerm} but found no matches.");
+            UI.MarkupLine("[yellow]WARN[/]No results found.");
             return;
         }
+        // Create our main table
+        var table = new Table().Border(TableBorder.Rounded);
+        table.AddColumn("[bold]Id[/]");
+        table.AddColumn("[bold]Type of media[/]");
+        table.AddColumn("[bold]Details[/]");
+        table.AddColumn("[bold]Status[/]");
+
         foreach (var item in results)
         {
-            Console.WriteLine(DescibeItem(item));
+            var (type, title, details) = DescibeItem(item);
+            var status = item.IsRented ? "[red]Rented[/]" : "[green]Available[/]";
+            table.AddRow($"[yellow]{item.Id}[/]", type, $"[white]{title}[/]", details, status);
         }
+
+        UI.Write(table);
     }
 
     private void EditMetadataFlow()
     {
-        // get the user input, for the items that they want to edit the metadata of
-        Console.Write("\nEnter the id of the item you want to the edit the metadata of: ");
-        var id = ReadNonEmpty();
-        var item = _service!.Find(id) ?? throw new KeyNotFoundException($"No item with id: {id} was found!");
+        UI.MarkupLine("[bold]Edit metadata[/]");
+        var id = PromptExistingId("Enter the id of the item you wish to edit");
+        var item = _service!.Find(id);
 
-        // Call the DescribeItem() method, to print out information about the item so that they know it is the one they want to edit the metadata of.
-        Console.WriteLine(DescibeItem(item));
-        Console.WriteLine("1) Rename title");
+        var choices = new List<string> { "Rename title" };
         if (item is Book)
         {
-            // If the item is of type: books, we add further choices for the user.
-            Console.WriteLine("2) Change author");
+            choices.Add("Change author");
         }
+
         if (item is Vhs)
         {
-            Console.WriteLine("3) Update current condition");
+            choices.Add("Update current condition");
         }
-        Console.Write("Choice: ");
-        var choices = Console.ReadLine();
 
-        switch (choices)
+        var choice = UI.Prompt(new SelectionPrompt<string>().Title("Choose the item you wish to edit").AddChoices(choices));
+
+        switch(choice)
         {
-            case "1":
-                Console.Write("New title: ");
-                var title = ReadNonEmpty();
-                (item as LibraryBase)!.Rename(title);
-                Console.WriteLine("Title updated.");
+            case "Rename title":
+                var t = PromptText("New title");
+                (item as LibraryBase)!.Rename(t);
+                UI.MarkupLine("[green]Title has been updated[/]");
                 break;
-            case "2" when item is Book book:
-                Console.Write("New author: ");
-                var author = ReadNonEmpty();
-                book.ChangeAuthor(author);
-                Console.WriteLine("Author updated.");
+            case "Change author" when item is Book book:
+                var a = PromptText("New author");
+                book.ChangeAuthor(a);
+                UI.MarkupLine("[green]Author updated.[/]");
                 break;
-            case "3" when item is Vhs vhs:
-                Console.Write("New condition: ");
-                var condition = ReadNonEmpty();
-                vhs.UpdateVHSCondition(condition);
-                Console.WriteLine("Conditon updated.");
-                break;
-            default:
-                Console.WriteLine("No changes made..");
+            case "Update condition" when item is Vhs vhs:
+                var cond = PromptText("Update current condition");
+                vhs.UpdateVHSCondition(cond);
+                UI.MarkupLine("[green]Condtion updated.[/]");
                 break;
         }
     }
